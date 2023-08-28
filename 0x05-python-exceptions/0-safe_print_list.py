@@ -2,14 +2,14 @@
 
 def safe_print_list(my_list=[], x=0):
     try:
-        count = 0
-        for element in my_list:
+        elements = 0
+        for i in range(x):
             if count < x:
                 print(element, end=' ')
-                count += 1
+                element += 1
             else:
                 break
         print()
-        return count
+        return elements
     except IndexError:
-        return count
+        return elements
