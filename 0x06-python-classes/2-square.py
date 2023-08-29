@@ -1,15 +1,17 @@
 #!/usr/bin/python3
-"""creating module square"""
+"""Define a class Square."""
 
 
 class Square:
-    """creating square classs
-        with conditional statements"""
+    """showcase a square."""
+
     def __init__(self, size=0):
-        """initialization"""
-        if type(size) is not int:
-            raise TypeError("size must be an intger")
+        """Initialize a new self Square.
+
+        Args: size (int): The size of the new square.
+        """
+        if not isinstance(size, int):
+            raise TypeError("size must be an integer")
         elif size < 0:
-            raise ValueError("size must be >=0")
-        else:
-            self.__size__ = size
+            raise ValueError("size must be >= 0")
+        self.__size = size
