@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Module: empty class """
 
+
 class Rectangle:
     """ Class that defines rectangle
         Private attribute:
