@@ -1,29 +1,79 @@
-#!/usr/bin/python3
+===================================================
+Tests for indentation
+========================================
 
-##################################################
-#       Testing the add_integer function         #
-##################################################
+>>> add_integer = __import__ ('0-add_integer').add_integer
 
-# Test case 1: Basic addition
-Input: 5, 7
-Expected Output: 12
+>>> add_integer(1, 2)
+3
 
-# Test case 2: Using default value
-Input: 5
-Expected Output: 103
+>>> add_integer(100, -2)
+98
 
-# Test case 3: Negative numbers
-Input: -3, -2
-Expected Output: -5
+>>> add_integer(2)
+100
 
-# Test case 4: Float inputs
-Input: 3.5, 4.2
-Expected Output: 7
+>>> add_integer(100.3, -2)
+98
 
-# Test case 5: Non-integer or non-float input
-Input: "string", 4
-Expected Output: TypeError: a must be an integer or b must be an integer
+>>> add_integer(10, 3.7)
+13
 
-# Test case 6: Large integers
-Input: 1000000000, 2000000000
-Expected Output: 3000000000
+>>> add_integer(69, 42)
+111
+
+>> add_integer(inf)
+inf
+
+>>> add_integer(float('nan'))
+Traceback (most recent call last):
+...
+ValueError: cannot convert float NaN to integer
+
+>>> add_integer(9223372036854775807, 1)
+9223372036854775808
+
+>>> add_integer('hello', 43)
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+>>> add_integer(23, 'holberton')
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
+
+>>> add_integer(None, 'holberton')
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+>>> add_integer('12a', 'Zoref')
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+>>> add_integer(23, None)
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
+
+>>> add_integer(23, [1, 2, 3])
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
+
+>>> add_integer([3, 4, 5])
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+>>> add_integer([])
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+>>> add_integer(float('inf'))
+Traceback (most recent call last):
+...
+OverflowError: cannot convert float infinity to integer
