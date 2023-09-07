@@ -1,0 +1,47 @@
+Module: `say_my_name`
+=======================================
+
+Test cases for 'say_my_name()` function
+
+========================================
+
+Import
+>>> say_my_name = __import__('3-say_my_name').say_my_name
+
+Checking Docstrings
+>>> c = __import__('3-say_my_name').__doc__
+>>> len(c) > 1
+True
+
+Test case 1: Normal functionality
+>>> say_my_name("John", "Smith")
+My name is John Smith
+
+Test case 2: passing is integer
+>>> say_my_name(10)
+Trackack (most recent call last):
+TypeError: first_name must be a string
+
+Test case 3: passing is float
+>>> say_my_name(10.3)
+Trackack (most recent call last):
+TypeError: first_name must be a string
+
+Test case 4: passing long string
+>>> say_my_name("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+My name is aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+Test case 5: more than 2 arguments
+>>> say_my_name("Lerato", "KayCee", "Shwamptee")
+Trackack (most recent call last):
+TypeError: say_my_name() takes from 1 to 2 positional arguments but 3 were given
+
+Test case 6: no argument passed 
+>>> say_my_name()
+Trackack (most recent call last):
+TypeError: say_my_name() missing 1 required positional argument: 'first_name'
+
+Test case 7: passing int as second argument
+>>> say_my_name("Betty", 10)
+Trackack (most recent call last):
+TypeError: last_name must be a string
