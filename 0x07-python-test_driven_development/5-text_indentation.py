@@ -1,30 +1,24 @@
 #!/usr/bin/python3
+"""Defines a text-indentation function."""
+
 
 def text_indentation(text):
-    """
-    Print text with 2 new lines after each of these characters: ., ? and :
-
-    Args:
-        text (str): The input text.
-
-    Returns:
-        None
-
-    Raises:
-        TypeError: If `text` is not a string.
-
+    """Print text with two new lines after each special carrecter
     """
     if not isinstance(text, str):
         raise TypeError("text must be a string")
 
-    lines = text.split(".")
-    for line in lines:
-        questions = line.split("?")
-        for question in questions:
-            colons = question.split(":")
-            for colon in colons:
-                print(colon.strip())
-            if len(colons) > 1:
-                print()
-        if len(questions) > 1:
-            print()
+    i = 0
+    while i < len(text) and text[i] == ' ':
+        i += 1
+
+    while i < len(text):
+        print(text[i], end="")
+        if text[i] == "\n" or text[i] in ".?:":
+            if text[i] in ".?:":
+                print("\n")
+            i += 1
+            while i < len(text) and text[i] == ' ':
+                i += 1
+            continue
+        i += 1
