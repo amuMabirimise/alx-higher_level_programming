@@ -1,12 +1,24 @@
 #!/usr/bin/python3
+'''
+a models with an empty file
+
+'''
 
 import json
+import csv
 
 
 class Base:
+    '''
+    represents the Base class
+    '''
+
     __nb_objects = 0
 
     def __init__(self, id=None):
+        '''
+        Constructor representation
+        '''
         if id is not None:
             self.id = id
         else:
@@ -15,45 +27,95 @@ class Base:
 
     @staticmethod
     def to_json_string(list_dictionaries):
-        if list_dictionaries is None or len(list_dictionaries) == 0:
+        '''
+        dictionary representation
+        '''
+        if list_dictionaries is None:
             return "[]"
-        else:
-            return json.dumps(list_dictionaries, sort_keys=True)
-
-    @classmethod
-    def save_to_file(cls, list_objs):
-        if list_objs is None:
-            list_objs = []
-
-        filename = cls.__name__ + ".json"
-
-        with open(filename, "w") as file:
-            json_string = cls.to_json_string([obj.to_dictionary() for obj in list_objs])
-            file.write(json_string)
+        return json.dumps(list_dictionaries)
 
     @staticmethod
     def from_json_string(json_string):
-        if json_string is None or json_string == "":
+        '''
+        Returns list of JSON
+        '''
+        if json_string is None:
             return []
-        else:
-            return json.loads(json_string)
+        return json.loads(json_string)
+
+    @classmethod
+    def save_to_file(cls, list_objs):
+        '''
+        Saves JSON directory
+        '''
+        listdict = []
+        if not list_objs:
+            list_objs = []
+        for items in list_objs:
+            listdict.append(items.to_dictionary())
+
+        with open('{}.json'.format(cls.__name__), 'w', encoding='utf-8') as f:
+            f.write(cls.to_json_string(listdict))
 
     @classmethod
     def create(cls, **dictionary):
-        if cls.__name__ == "Rectangle":
-            dummy = cls(1, 1)
-        elif cls.__name__ == "Square":
-            dummy = cls(1)
-        dummy.update(**dictionary)
-        return dummy
+        '''
+        Returns instance set
+        '''
+        if cls.__name__ is 'Rectangle':
+            newInstance = cls(1, 1)
+            newInstance.update(**dictionary)
+            return newInstance
+        if cls.__name__ is 'Square':
+            newInstance = cls(1)
+            newInstance.update(**dictionary)
+            return newInstance
+        else:
+            return None
 
     @classmethod
     def load_from_file(cls):
-        filename = cls.__name__ + ".json"
+        '''
+        Returns instances
+        '''
+        instanceList = []
         try:
-            with open(filename, "r") as file:
-                json_string = file.read()
-                dictionaries = cls.from_json_string(json_string)
-                return [cls.create(**d) for d in dictionaries]
-        except FileNotFoundError:
+            with open('{}.json'.format(cls.__name__), 'r',
+                      encoding='utf-8') as f:
+                objectList = cls.from_json_string(f.read())
+        except IOError:
             return []
+        for dictionary in objectList:
+            instanceList.append(cls.create(**dictionary))
+        return instanceList
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs):
+        '''
+        csv
+        '''
+        listToDictionary = []
+        if list_objs is not None:
+            list_objs = []
+        for items in list_objs:
+            listToDictionary.append(items.to_dictionary())
+
+        with open('{}.csv'.format(cls.__name__), 'w', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            writer.writerows(list_objs)
+
+    @classmethod
+    def load_from_file_csv(cls):
+        '''
+        list
+        of instances
+        '''
+        instanceList = []
+        try:
+            with open('{}'.format(cls.__name__), 'r', encoding='utf-8') as f:
+                objectList = cls.from_json_string(f.read())
+        except IOError:
+            return []
+        for dictionary in objectList:
+            instanceList.append(cls.create(**dictionary))
+        return instanceList
