@@ -1,21 +1,27 @@
 #!/usr/bin/python3
-"""Class Square"""
-
-Rectangle = __import__('9-rectangle').Rectangle
+"""Defines a class Student."""
 
 
-class Square(Rectangle):
-    """A class that inherits from Retangle"""
-    def __init__(self, size):
-        """Instantiation with size"""
-        self.__size = size
-        self.integer_validator('size', self.__size)
+class Student:
+    """Represent a student."""
 
-    def area(self):
-        """area of square"""
-        return self.__size * self.__size
+    def __init__(self, first_name, last_name, age):
+        """Initialize a new Student
+        """
+        self.first_name = first_name
+        self.last_name = last_name
+        self.age = age
 
-    def __str__(self):
-        """__str__
-        square description """
-        return ("[Rectangle] {}/{}".format(self.__size, self.__size))
+    def to_json(self, attrs=None):
+        """Get a dictionary representation of the Student
+        """
+        if (type(attrs) == list and
+                all(type(ele) == str for ele in attrs)):
+            return {k: getattr(self, k) for k in attrs if hasattr(self, k)}
+        return self.__dict__
+
+    def reload_from_json(self, json):
+        """Replace all attributes of the Student.
+        """
+        for k, v in json.items():
+            setattr(self, k, v)
