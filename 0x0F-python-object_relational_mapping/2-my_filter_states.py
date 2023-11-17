@@ -1,47 +1,40 @@
 #!/usr/bin/python3
+"""
+Script that takes in an argument and displays all values in the states table
+of hbtn_0e_0_usa where name matches the argument.
+"""
+
 import MySQLdb
 import sys
 
+if __name__ == "__main__":
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
+    state_name = sys.argv[4]
 
-def filter_states_by_name(username, password, database, state_name):
-    connection = MySQLdb.connect(
+    db = MySQLdb.connect(
         host="localhost",
         port=3306,
         user=username,
         passwd=password,
-        db=database
+        db=database,
+        charset="utf8"
     )
+    cur = db.cursor()
 
-    cursor = connection.cursor()
+    query = (
+        "SELECT * FROM states "
+        "WHERE name LIKE BINARY '{}' "
+        "ORDER BY id ASC"
+    ).format(state_name)
 
-    try:
-        query = (
-            "SELECT * FROM states WHERE name = '{}' "
-            "ORDER BY id ASC".format(state_name)
-        )
-        cursor.execute(query)
+    cur.execute(query)
 
-        results = cursor.fetchall()
+    rows = cur.fetchall()
 
-        for row in results:
-            print(row)
+    for row in rows:
+        print(row)
 
-    except MySQLdb.Error as e:
-        print("MySQL Error: {}".format(e))
-
-    finally:
-        cursor.close()
-        connection.close()
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: {} username password database state_name"
-              .format(sys.argv[0]))
-        sys.exit(1)
-
-    username, password, database, state_name = (
-        sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
-    )
-
-    filter_states_by_name(username, password, database, state_name)
+    cur.close()
+    db.close()
