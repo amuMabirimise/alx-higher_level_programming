@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
-import MySQLdb
 import sys
+import MySQLdb
 
 if __name__ == "__main__":
-    username = sys.argv[1]
-    password = sys.argv[2]
-    database = sys.argv[3]
+    if len(sys.argv) != 4:
+        print("Usage: {} <username> <password> <database>".format(sys.argv[0]))
+        sys.exit(1)
+
+    username, password, database = sys.argv[1:4]
 
     db = MySQLdb.connect(
         host="localhost",
@@ -19,11 +21,7 @@ if __name__ == "__main__":
 
     cur = db.cursor()
 
-    cur.execute(
-        "SELECT * FROM states "
-        "WHERE name LIKE BINARY 'N%' "
-        "ORDER BY id ASC"
-    )
+    cur.execute("SELECT id, name FROM states WHERE name LIKE 'N%' ORDER BY id;")
 
     rows = cur.fetchall()
 
@@ -31,5 +29,5 @@ if __name__ == "__main__":
         print(row)
 
     cur.close()
-
     db.close()
+
