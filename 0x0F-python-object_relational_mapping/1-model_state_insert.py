@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """
-    A script that changes teh name of a State object in hbtn_0e_6_usa
-    name of State where id = 2 to New Mexico
+    A script that adds the State object 'Louisiana' to hbtn_0e_6_usa
     Username, password, dbname will be passed as arguments to the script.
 """
 
@@ -20,13 +19,11 @@ if __name__ == '__main__':
 
     Base.metadata.create_all(engine)
 
-    # create a session
     session = Session()
 
-    # fetch row to change
-    rename_state = session.query(State) \
-                          .filter(State.id == 2).first()
-    rename_state.name = 'New Mexico'
+    new_state = State(name='Louisiana')
+    session.add(new_state)
     session.commit()
 
-    session.close()
+    state_add = session.query(State).filter(State.name == 'Louisiana').one()
+    print(state_add.id)
