@@ -24,4 +24,3 @@ if __name__ == "__main__":
         print("{}: ({}) {}".format(state_name, city.id, city.name))
 
     session.close()
-
