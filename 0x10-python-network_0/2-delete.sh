@@ -1,4 +1,3 @@
 #!/bin/bash
-# Usage: ./get_response_body.sh <URL>
+# sends a DELETE request to the URL and displays the body of a response
 curl -sX DELETE "$1"
-
