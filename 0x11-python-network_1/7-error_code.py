@@ -1,14 +1,17 @@
 #!/usr/bin/python3
-import requests
-import sys
+"""
+This script takes in a URL, sends a request to the URL and displays
+the body of the response (decoded in utf-8).
+"""
 
 if __name__ == "__main__":
-    url = sys.argv[1]
+    import requests
+    import sys
 
-    try:
-        with requests.get(url) as response:
-            response.raise_for_status()
+    URL = sys.argv[1]
+
+    with requests.get(URL) as response:
+        if response.ok:
             print(response.text)
-    except requests.exceptions.HTTPError as e:
-        print("Error code:", e.response.status_code)
-
+        else:
+            print(f"Error code: {response.status_code}")
