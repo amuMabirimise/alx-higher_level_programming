@@ -2,13 +2,13 @@
 /* geting contents of a webpage and stores it in the  file */
 
 const request = require('request');
-const fs = require('fs');
-
-const args = process.argv.slice(2);
-const url = args[0];
-const path = args[1];
-
-request
-  .get(url)
-  .on('error', err => { console.log(err); })
-  .pipe(fs.createWriteStream(path, 'utf-8'));
+request(process.argv[2], function (error, response, body) {
+  if (!error) {
+    const results = JSON.parse(body).results;
+    console.log(results.reduce((count, movie) => {
+      return movie.characters.find((character) => character.endsWith('/18/'))
+        ? count + 1
+        : count;
+    }, 0));
+  }
+});

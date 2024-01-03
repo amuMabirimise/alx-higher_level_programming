@@ -1,17 +1,16 @@
 #!/usr/bin/node
-/*
-    printing a number of movies with a Wedge Antilles
-*/
 
 const request = require('request');
+const episodeNum = process.argv[2];
+const API_URL = 'https://swapi-api.hbtn.io/api/films/';
 
-const id = '18';
-const url = process.argv.slice(2)[0];
-
-request(url, (err, res, body) => {
-  if (err) console.log(err);
-  const films = JSON.parse(body).results;
-  const wedgeFilms = films.map(film => film.characters)
-    .filter(arr => arr.find(str => str.search(id) !== -1));
-  console.log(wedgeFilms.length);
+request(API_URL + episodeNum, function (err, response, body) {
+  if (err) {
+    console.log(err);
+  } else if (response.statusCode === 200) {
+    const responseJSON = JSON.parse(body);
+    console.log(responseJSON.title);
+  } else {
+    console.log('Error code: ' + response.statusCode);
+  }
 });

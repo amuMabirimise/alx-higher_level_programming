@@ -2,21 +2,26 @@
 /* computing a number of tasks that computed by user id */
 
 const request = require('request');
+const url = process.argv[2];
 
-const args = process.argv.slice(2);
-const url = args[0];
-
-request(url, (err, res, body) => {
-  if (err) console.log(err);
-  const tasks = JSON.parse(body);
-  const completed = {};
-  tasks.forEach((task) => {
-    if (task.completed && completed[task.userId] === undefined) {
-      completed[task.userId] = 1;
-    } else if (task.completed) {
-      completed[task.userId] += 1;
+request(url, function (err, response, body) {
+  if (err) {
+    console.log(err);
+  } else if (response.statusCode === 200) {
+    const completed = {};
+    const tasks = JSON.parse(body);
+    for (const i in tasks) {
+      const task = tasks[i];
+      if (task.completed === true) {
+        if (completed[task.userId] === undefined) {
+          completed[task.userId] = 1;
+        } else {
+          completed[task.userId]++;
+        }
+      }
     }
-  });
-  console.log(completed);
-}
-);
+    console.log(completed);
+  } else {
+    console.log('An error occurred. Status code: ' + response.statusCode);
+  }
+});
